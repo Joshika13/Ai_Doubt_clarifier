@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% block title %}Ask a Doubt — AI Doubt Clarifier{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/ask.css') }}" />
+{% endblock %}
+
+{% block content %}
+<div class="ask-layout">
+
+  <!-- ── Sidebar ──────────────────────────────────────────────────── -->
+  <aside class="ask-sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <span>Session</span>
+      <button class="clear-btn" id="clearChat" title="Clear chat">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6l-1 14H6L5 6M8 6V4h8v2"/></svg>
+        Clear
+      </button>
+    </div>
+    <div class="sidebar-stats">
+      <div class="sidebar-stat">
+        <span class="sidebar-stat-num" id="sidebarCount">0</span>
+        <span class="sidebar-stat-label">Doubts Asked</span>
+      </div>
+    </div>
+    <div class="sidebar-topics">
+      <div class="sidebar-section-label">Recent Topics</div>
+      <ul class="topic-list" id="topicList">
+        <li class="topic-empty">Your questions appear here</li>
+      </ul>
+    </div>
+
+    <div class="sidebar-subjects" id="subjectSection" style="display:none">
+      <div class="sidebar-section-label">Subjects Explored</div>
+      <div class="subject-tags" id="subjectTags"></div>
+    </div>
+  </aside>
+
+  <!-- ── Chat Area ─────────────────────────────────────────────────── -->
+  <main class="chat-main">
+
+    <!-- Empty state (shown before first message) -->
+    <div class="chat-empty" id="chatEmpty">
+      <div class="empty-icon">⬡</div>
+      <h2>Ask anything academic</h2>
+      <p>Type a question below. Get a structured, student-friendly explanation in seconds.</p>
+      <div class="suggestion-chips">
+        <button class="chip" data-q="What is photosynthesis?">What is photosynthesis?</button>
+        <button class="chip" data-q="Explain Newton's laws of motion">Newton's laws of motion</button>
+        <button class="chip" data-q="What caused World War 2?">What caused World War 2?</button>
+        <button class="chip" data-q="How does the human heart work?">How does the human heart work?</button>
+      </div>
+    </div>
+
+    <!-- Message thread -->
+    <div class="chat-thread" id="chatThread"></div>
+
+    <!-- Typing indicator (hidden) -->
+    <div class="typing-indicator" id="typingIndicator" style="display:none">
+      <div class="typing-avatar">⬡</div>
+      <div class="typing-dots">
+        <span></span><span></span><span></span>
+      </div>
+      <span class="typing-label">AI is thinking…</span>
+    </div>
+
+    <!-- Input bar -->
+    <div class="chat-input-wrap">
+      <div class="chat-input-box">
+        <textarea
+          id="questionInput"
+          class="chat-textarea"
+          placeholder="Ask your doubt here… (e.g. Explain the Pythagorean theorem)"
+          rows="1"
+          maxlength="1000"
+        ></textarea>
+        <button class="send-btn" id="sendBtn" disabled aria-label="Send question">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"/></svg>
+        </button>
+      </div>
+      <div class="input-meta">
+        <span id="charCount">0 / 1000</span>
+        <span>Press <kbd>Enter</kbd> to send, <kbd>Shift+Enter</kbd> for new line</span>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ── Quiz Modal ─────────────────────────────────────────────────── -->
+<div class="modal-overlay" id="quizOverlay" style="display:none">
+  <div class="modal" role="dialog" aria-modal="true" aria-label="Quick Quiz">
+    <div class="modal-header">
+      <h3>Quick Quiz</h3>
+      <button class="modal-close" id="quizClose" aria-label="Close quiz">✕</button>
+    </div>
+    <div class="modal-body" id="quizBody">
+      <!-- Injected by JS -->
+    </div>
+    <div class="modal-footer">
+      <button class="btn-primary" id="submitQuiz">Check Answers</button>
+      <button class="btn-ghost" id="quizClose2">Close</button>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/ask.js') }}"></script>
+{% endblock %}

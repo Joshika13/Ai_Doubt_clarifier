@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — AI Doubt Clarifier{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}" />
+{% endblock %}
+
+{% block content %}
+<div class="dash-layout">
+
+  <div class="dash-header">
+    <div class="container">
+      <h1 class="dash-title">Your Learning Dashboard</h1>
+      <p class="dash-subtitle">Track every doubt you've cleared this session.</p>
+    </div>
+  </div>
+
+  <div class="container dash-content">
+
+    <!-- ── Stats Row ───────────────────────────────────────────────── -->
+    <div class="stats-row">
+
+      <div class="stat-card reveal">
+        <div class="stat-card-icon" style="--c: #7c6fff">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        </div>
+        <div class="stat-card-num" id="totalDoubts">{{ stats.total_doubts }}</div>
+        <div class="stat-card-label">Doubts Cleared</div>
+        <div class="stat-card-bar"><div class="stat-card-fill" style="--pct: {{ [stats.total_doubts * 10, 100]|min }}%"></div></div>
+      </div>
+
+      <div class="stat-card reveal delay-1">
+        <div class="stat-card-icon" style="--c: #2dd4bf">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        </div>
+        <div class="stat-card-num" id="subjectCount">{{ stats.subjects|length }}</div>
+        <div class="stat-card-label">Subjects Explored</div>
+        <div class="stat-card-bar"><div class="stat-card-fill" style="--pct: {{ [stats.subjects|length * 15, 100]|min }}%; --bar-color: #2dd4bf"></div></div>
+      </div>
+
+      <div class="stat-card reveal delay-2">
+        <div class="stat-card-icon" style="--c: #f472b6">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        <div class="stat-card-num" id="streakCount">
+          {% if stats.total_doubts > 0 %}
+            {{ (stats.total_doubts * 7)|round|int }}%
+          {% else %}
+            0%
+          {% endif %}
+        </div>
+        <div class="stat-card-label">Clarity Score</div>
+        <div class="stat-card-bar"><div class="stat-card-fill" style="--pct: {{ [stats.total_doubts * 7, 100]|min }}%; --bar-color: #f472b6"></div></div>
+      </div>
+
+    </div>
+
+    <!-- ── Subject Breakdown ──────────────────────────────────────── -->
+    <div class="dash-section reveal">
+      <div class="dash-section-header">
+        <h2>Subject Breakdown</h2>
+      </div>
+      {% if stats.subjects %}
+      <div class="subject-breakdown">
+        {% set total = stats.total_doubts or 1 %}
+        {% for subject, count in stats.subjects.items() %}
+        <div class="subject-row">
+          <div class="subject-row-info">
+            <span class="subject-name">{{ subject }}</span>
+            <span class="subject-count">{{ count }} doubt{{ 's' if count != 1 }}</span>
+          </div>
+          <div class="subject-progress-bar">
+            <div class="subject-progress-fill" style="width: {{ (count / total * 100)|round|int }}%"></div>
+          </div>
+          <span class="subject-pct">{{ (count / total * 100)|round|int }}%</span>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="empty-section">
+        <p>No subjects yet — <a href="/ask">ask your first doubt</a> to see the breakdown.</p>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- ── Recent Topics ──────────────────────────────────────────── -->
+    <div class="dash-section reveal delay-1">
+      <div class="dash-section-header">
+        <h2>Recent Topics</h2>
+        {% if stats.recent_topics %}
+        <a href="/ask" class="dash-link">Ask more →</a>
+        {% endif %}
+      </div>
+      {% if stats.recent_topics %}
+      <ul class="topic-history">
+        {% for topic in stats.recent_topics %}
+        <li class="topic-history-item">
+          <span class="topic-bullet">⬡</span>
+          <span>{{ topic }}</span>
+          <a href="/ask?q={{ topic|urlencode }}" class="topic-ask-again">Ask again →</a>
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <div class="empty-section">
+        <p>No recent topics — <a href="/ask">start a session</a> to build your history.</p>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- ── Learning Tips ──────────────────────────────────────────── -->
+    <div class="dash-section reveal delay-2">
+      <div class="dash-section-header">
+        <h2>Learning Tips</h2>
+      </div>
+      <div class="tips-grid">
+        <div class="tip-card">
+          <div class="tip-num">01</div>
+          <h4>Always attempt first</h4>
+          <p>Try solving the problem yourself before asking. This builds genuine understanding instead of dependency.</p>
+        </div>
+        <div class="tip-card">
+          <div class="tip-num">02</div>
+          <h4>Take the quiz</h4>
+          <p>After every explanation, generate and complete the 3-question quiz. Retrieval practice cements memory.</p>
+        </div>
+        <div class="tip-card">
+          <div class="tip-num">03</div>
+          <h4>Revisit low-confidence answers</h4>
+          <p>If the AI scores below 80%, cross-check with your textbook or teacher for verification.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}

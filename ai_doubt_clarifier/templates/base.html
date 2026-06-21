@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}AI Doubt Clarifier{% endblock %}</title>
+
+  <!-- Google Fonts: Space Grotesk (display) + Inter (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Shared styles -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+  <!-- ── Navigation ───────────────────────────────────────────────── -->
+  <nav class="navbar">
+    <a href="/" class="nav-brand">
+      <span class="brand-icon">⬡</span>
+      <span class="brand-text">AI Doubt Clarifier</span>
+    </a>
+    <div class="nav-links">
+      <a href="/" class="nav-link {% if request.path == '/' %}active{% endif %}">Home</a>
+      <a href="/ask" class="nav-link {% if request.path == '/ask' %}active{% endif %}">Ask</a>
+      <a href="/dashboard" class="nav-link {% if request.path == '/dashboard' %}active{% endif %}">Dashboard</a>
+    </div>
+    <a href="/ask" class="nav-cta">Ask a Doubt →</a>
+    <button class="hamburger" id="hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Mobile menu overlay -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="/" class="mobile-link">Home</a>
+    <a href="/ask" class="mobile-link">Ask a Doubt</a>
+    <a href="/dashboard" class="mobile-link">Dashboard</a>
+  </div>
+
+  <!-- ── Page content ──────────────────────────────────────────────── -->
+  {% block content %}{% endblock %}
+
+  <!-- ── Shared scripts ────────────────────────────────────────────── -->
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

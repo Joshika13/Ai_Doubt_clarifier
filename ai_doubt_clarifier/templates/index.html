@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+{% block title %}AI Doubt Clarifier — Instant Student Explanations{% endblock %}
+
+{% block content %}
+
+<!-- ── Animated hero background ─────────────────────────────────── -->
+<div class="hero-bg" aria-hidden="true">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <canvas id="particleCanvas"></canvas>
+</div>
+
+<!-- ── Hero Section ──────────────────────────────────────────────── -->
+<section class="hero" id="hero">
+  <div class="hero-inner">
+    <div class="hero-badge reveal">
+      <span class="badge-dot"></span>
+      Powered by Gemini AI
+    </div>
+
+    <h1 class="hero-title reveal delay-1">
+      Stop Googling.<br />
+      <span class="gradient-text">Start Understanding.</span>
+    </h1>
+
+    <p class="hero-subtitle reveal delay-2">
+      Ask any academic question and get instant, structured explanations built
+      for students — with real examples, key points, and a confidence score.
+    </p>
+
+    <div class="hero-actions reveal delay-3">
+      <a href="/ask" class="btn-primary">
+        Ask Your First Doubt
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="#features" class="btn-ghost">See How It Works</a>
+    </div>
+
+    <!-- Floating stat chips -->
+    <div class="hero-stats reveal delay-4">
+      <div class="stat-chip"><strong>3-Part</strong> Explanations</div>
+      <div class="stat-chip"><strong>Auto</strong> Quiz Generator</div>
+      <div class="stat-chip"><strong>Confidence</strong> Scoring</div>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="scroll-hint reveal delay-5">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ── Features Section ──────────────────────────────────────────── -->
+<section class="features" id="features">
+  <div class="container">
+    <div class="section-label reveal">How it works</div>
+    <h2 class="section-title reveal delay-1">Designed for the way students actually learn</h2>
+
+    <div class="features-grid">
+
+      <div class="feature-card reveal">
+        <div class="feature-icon" style="--icon-hue: 250">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        </div>
+        <h3>Structured Explanations</h3>
+        <p>Every answer breaks into Definition → Simple Explanation → Real-Life Example → Key Points. Never a wall of text.</p>
+      </div>
+
+      <div class="feature-card reveal delay-1">
+        <div class="feature-icon" style="--icon-hue: 170">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+        </div>
+        <h3>Confidence Score</h3>
+        <p>Each answer comes with a visual confidence bar so you know exactly how certain the AI is about its explanation.</p>
+      </div>
+
+      <div class="feature-card reveal delay-2">
+        <div class="feature-icon" style="--icon-hue: 320">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+        </div>
+        <h3>Instant Quiz</h3>
+        <p>One click generates 3 multiple-choice questions from your explanation. Reinforcement learning built right in.</p>
+      </div>
+
+      <div class="feature-card reveal delay-3">
+        <div class="feature-icon" style="--icon-hue: 40">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v4H3zM3 11h18v4H3zM3 19h18v4H3z" opacity=".3"/><path d="M3 3h18"/><rect x="3" y="8" width="18" height="13" rx="1"/></svg>
+        </div>
+        <h3>Subject Dashboard</h3>
+        <p>Track which subjects you've explored, see your learning progress, and revisit topics — all in one clean dashboard.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── Demo / Preview Section ────────────────────────────────────── -->
+<section class="demo-section">
+  <div class="container">
+    <div class="demo-card reveal">
+      <div class="demo-header">
+        <div class="demo-dots">
+          <span></span><span></span><span></span>
+        </div>
+        <span class="demo-title-bar">AI Doubt Clarifier</span>
+      </div>
+      <div class="demo-body">
+        <div class="demo-msg user-msg">What is Newton's Second Law of Motion?</div>
+        <div class="demo-msg ai-msg">
+          <div class="demo-subject-tag">Physics</div>
+          <div class="demo-section-block">
+            <span class="demo-label">Definition</span>
+            Force equals mass multiplied by acceleration (F = ma).
+          </div>
+          <div class="demo-section-block">
+            <span class="demo-label">Simple Explanation</span>
+            The harder you push something, the faster it speeds up. A heavy object needs more push to get the same speed as a lighter one.
+          </div>
+          <div class="demo-section-block">
+            <span class="demo-label">Real-Life Example</span>
+            Kicking a football vs. a bowling ball — same kick, very different results.
+          </div>
+          <div class="demo-confidence">
+            <span>Confidence</span>
+            <div class="demo-bar"><div class="demo-fill" style="width: 94%"></div></div>
+            <strong>94%</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA Section ────────────────────────────────────────────────── -->
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-inner reveal">
+      <h2>Ready to actually understand your subjects?</h2>
+      <p>No sign-up needed. Just type your doubt and get clarity in seconds.</p>
+      <a href="/ask" class="btn-primary btn-large">
+        Start Asking Free
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ─────────────────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="container">
+    <span class="footer-brand">⬡ AI Doubt Clarifier</span>
+    <span class="footer-copy">Built for students. Powered by Gemini.</span>
+  </div>
+</footer>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/home.js') }}"></script>
+{% endblock %}
